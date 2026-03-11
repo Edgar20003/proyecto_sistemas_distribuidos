@@ -1,16 +1,36 @@
 services:
   worker-1:
-    build: .
+    image: docker-worker-1
     container_name: edgar-worker-1
+    volumes:
+      - ../rust/target/release/worker:/usr/local/bin/worker
+    command: ["/usr/local/bin/worker"]
+    network_mode: "host"
+    restart: on-failure
 
   worker-2:
-    build: .
+    image: docker-worker-2
     container_name: edgar-worker-2
+    volumes:
+      - ../rust/target/release/worker:/usr/local/bin/worker
+    command: ["/usr/local/bin/worker"]
+    network_mode: "host"
+    restart: on-failure
 
   worker-3:
-    build: .
+    image: docker-worker-3
     container_name: edgar-worker-3
+    volumes:
+      - ../rust/target/release/worker:/usr/local/bin/worker
+    command: ["/usr/local/bin/worker"]
+    network_mode: "host"
+    restart: on-failure
 
   worker-4:
-    build: .
+    image: docker-worker-4
     container_name: edgar-worker-4
+    volumes:
+      - ../rust/target/release/worker:/usr/local/bin/worker
+    command: ["/usr/local/bin/worker"]
+    network_mode: "host"
+    restart: on-failure

@@ -58,12 +58,13 @@ async fn submit_handler(
     let pi_approx = 4.0 * (*inside as f64) / (*total as f64);
     let error = ((pi_approx - std::f64::consts::PI).abs() / std::f64::consts::PI) * 100.0;
 
-    println!("\n--- 📊 REPORTE DE PROGRESO ---");
-    println!("👤 Nodo: {}", payload.worker_id);
-    println!("🎯 Dardos en este envío: {}", payload.darts_total);
-    println!("📈 PI Estimado: {:.10}", pi_approx);
-    println!("📉 Margen de Error: {:.6}%", error);
-    println!("-----------------------------\n");
+    println!("\n==========================================");
+    println!("📊 REPORTE RECIBIDO DE: {}", payload.worker_id);
+    println!("🎯 Dardos lanzados: {}", payload.darts_total);
+    println!("📈 Aproximación de PI: {:.10}", pi_approx);
+    println!("📉 Error porcentual: {:.6}%", error);
+    println!("🕒 Timestamp: {:?}", std::time::SystemTime::now());
+    println!("==========================================\n");    
 
     "✅ Recibido"
 }
