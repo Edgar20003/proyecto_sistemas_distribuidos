@@ -1,38 +1,35 @@
-use std::env;
+use serde::{Deserialize, Serialize};
 
-// Definición de estructuras (Requisito del Doc B)
-#[derive(Debug)]
+// Definición de mensajes (Estructuras requeridas por la rúbrica)
+#[derive(Serialize, Deserialize, Debug)]
 struct Task {
-    id: u32,
-    instruccion: String,
-}
-
-#[derive(Debug)]
-struct Result {
     task_id: u32,
-    estado: String,
+    darts_to_throw: u64,
 }
 
-#[tokio::main]
-async fn main() {
-    let args: Vec<String> = env::args().collect();
-    let rol = if args.len() > 1 { &args[1] } else { "coordinador" };
+#[derive(Serialize, Deserialize, Debug)]
+struct ResultMsg {
+    task_id: u32,
+    darts_inside_circle: u64,
+    worker_id: String,
+}
 
-    println!("🚀 Iniciando nodo con rol: {}", rol);
+fn main() {
+    println!("🚀 [Coordinador] Iniciando sistema distribuido de Monte Carlo...");
+    
+    // 1. Coordinador genera tarea Dummy
+    let dummy_task = Task { task_id: 1, darts_to_throw: 100_000 };
+    println!("📤 [Coordinador] Enviando tarea dummy al worker: {:?}", dummy_task);
 
-    if rol == "coordinador" {
-        let dummy_task = Task { id: 1, instruccion: String::from("Calcular fragmento Mandelbrot") };
-        println!("[Coordinador] Enviando tarea a worker: {:?}", dummy_task);
-        
-        // Simular espera de red
-        tokio::time::sleep(tokio::time::Duration::from_secs(2)).await;
-        
-        println!("[Coordinador] Resultado recibido del worker: Tarea {} completada con éxito.", dummy_task.id);
-    } else {
-        println!("[Worker] Esperando tareas del coordinador...");
-        tokio::time::sleep(tokio::time::Duration::from_secs(1)).await;
-        
-        let dummy_result = Result { task_id: 1, estado: String::from("Completado") };
-        println!("[Worker] Procesando tarea... enviando resultado: {:?}", dummy_result);
-    }
+    // 2. Simulación: El worker recibe y procesa
+    println!("   ⚙️ [Worker-Abraham] Recibí tarea {}. Simulando cálculo de Pi...", dummy_task.task_id);
+    let dummy_result = ResultMsg { 
+        task_id: dummy_task.task_id, 
+        darts_inside_circle: 78_540, 
+        worker_id: "Worker-Abraham".to_string() 
+    };
+
+    // 3. Coordinador recibe el resultado
+    println!("📥 [Coordinador] Resultado recibido de {}: {:?}", dummy_result.worker_id, dummy_result);
+    println!("✅ [Sistema] Prueba 'Hello Distributed' completada exitosamente.");
 }

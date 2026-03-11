@@ -1,0 +1,16 @@
+services:
+  worker-1:
+    build: .
+    container_name: edgar-worker-1
+
+  worker-2:
+    build: .
+    container_name: edgar-worker-2
+
+  worker-3:
+    build: .
+    container_name: edgar-worker-3
+
+  worker-4:
+    build: .
+    container_name: edgar-worker-4
